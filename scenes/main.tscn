@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://ot2jepuoq7ja"]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_jtqcu"]
+[ext_resource type="PackedScene" uid="uid://bdj3uylvvchyc" path="res://scenes/Volvox.tscn" id="1_xhbqu"]
+[ext_resource type="PackedScene" uid="uid://dvp4ohivh0pe1" path="res://scenes/enemy.tscn" id="3_5fiif"]
+
+[sub_resource type="Curve2D" id="Curve2D_kmdib"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 704, 0, 0, 0, 0, 704, 712, 0, 0, 0, 0, 712, -8, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6itlw"]
+size = Vector2(688, 452.632)
+
+[node name="Main" type="Area2D"]
+script = ExtResource("1_jtqcu")
+mob_scene = ExtResource("3_5fiif")
+
+[node name="Volvox" parent="." instance=ExtResource("1_xhbqu")]
+position = Vector2(338, 404)
+scale = Vector2(0.2, 0.2)
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_kmdib")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="MobPath"]
+rotation = 1.5708
+
+[node name="MobSpawnTimeout" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="PlayScreen" type="CollisionShape2D" parent="."]
+position = Vector2(352, 352)
+scale = Vector2(1, 1.52)
+shape = SubResource("RectangleShape2D_6itlw")
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]
+[connection signal="area_shape_entered" from="Volvox" to="." method="_on_volvox_area_shape_entered"]
+[connection signal="body_entered" from="Volvox" to="." method="_on_volvox_body_entered"]
+[connection signal="timeout" from="MobSpawnTimeout" to="." method="_on_mob_spawn_timeout_timeout"]

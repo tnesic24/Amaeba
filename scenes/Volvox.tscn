@@ -1,0 +1,104 @@
+[gd_scene load_steps=9 format=3 uid="uid://bdj3uylvvchyc"]
+
+[ext_resource type="Texture2D" uid="uid://oga1xybkwxhi" path="res://assets/volvox1.png" id="2_w3v8d"]
+[ext_resource type="Texture2D" uid="uid://cctuck3nuvee2" path="res://assets/volvox_antenae2a.png" id="3_ntm2j"]
+[ext_resource type="Texture2D" uid="uid://7kjiq8lm5qdl" path="res://assets/volvox_antenae2bbubble.png" id="4_17w8g"]
+[ext_resource type="Texture2D" uid="uid://ovi2ut3cj1ok" path="res://assets/volvox_antenae2c1bubble.png" id="5_ok08x"]
+[ext_resource type="Texture2D" uid="uid://dvd5m743u87al" path="res://assets/volvox_antenae2e.png" id="6_68jre"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wa6tk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ntm2j")
+}, {
+"duration": 0.5,
+"texture": ExtResource("4_17w8g")
+}, {
+"duration": 0.5,
+"texture": ExtResource("5_ok08x")
+}, {
+"duration": 0.5,
+"texture": ExtResource("6_68jre")
+}],
+"loop": true,
+"name": &"push",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d1ptc"]
+radius = 197.003
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5l7d7"]
+radius = 1401.7
+
+[node name="Volvox" type="Area2D"]
+position = Vector2(-54, 173)
+
+[node name="Volvox1" type="Sprite2D" parent="."]
+position = Vector2(51, -174)
+texture = ExtResource("2_w3v8d")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(51.8276, -176.064)
+rotation = 0.00432237
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-14.9683, -263.874)
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(46.183, -176.467)
+rotation = 0.762058
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(46.183, -176.467)
+rotation = 1.66364
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+position = Vector2(34, -166)
+rotation = 2.36529
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="."]
+position = Vector2(46.183, -176.467)
+rotation = -3.1362
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="AnimatedSprite2D6" type="AnimatedSprite2D" parent="."]
+position = Vector2(46.183, -176.467)
+rotation = -2.47945
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="AnimatedSprite2D7" type="AnimatedSprite2D" parent="."]
+position = Vector2(46.183, -176.467)
+rotation = -1.6041
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="AnimatedSprite2D8" type="AnimatedSprite2D" parent="."]
+position = Vector2(46.183, -176.467)
+rotation = -0.838965
+sprite_frames = SubResource("SpriteFrames_wa6tk")
+animation = &"push"
+offset = Vector2(-16.7145, -270.216)
+
+[node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(51, -174)
+shape = SubResource("CircleShape2D_d1ptc")
+
+[node name="RadarCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(54, -173)
+shape = SubResource("CircleShape2D_5l7d7")
