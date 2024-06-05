@@ -28,7 +28,7 @@ curve = SubResource("Curve2D_kmdib")
 rotation = 1.5708
 
 [node name="MobSpawnTimeout" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
 
 [node name="PlayScreen" type="CollisionShape2D" parent="."]
 position = Vector2(352, 352)

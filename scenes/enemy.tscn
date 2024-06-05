@@ -3,18 +3,17 @@
 [ext_resource type="Texture2D" uid="uid://oga1xybkwxhi" path="res://assets/volvox1.png" id="1_if51i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uivwy"]
-radius = 196.023
+radius = 150.0
 
 [node name="Enemy" type="RigidBody2D"]
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 gravity_scale = 0.0
 
 [node name="Volvox1" type="Sprite2D" parent="."]
-position = Vector2(-2, -1)
-scale = Vector2(0.4, 0.4)
+position = Vector2(2.86102e-06, -2.86102e-06)
+scale = Vector2(0.236887, 0.24369)
 texture = ExtResource("1_if51i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, -2)
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 shape = SubResource("CircleShape2D_uivwy")

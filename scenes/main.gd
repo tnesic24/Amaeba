@@ -12,34 +12,32 @@ func _ready():
 
 @export var mob_scene: PackedScene
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
-	#$Volvox/CollisionShape2D2.
+	refreshVector()
 
-	
+var Enemies=[]
+
 var inputVector=[0,0,0,0,0,0,0,0]
 
 var speed=0.1
 
-func _on_volvox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
-	print(area)
-	print(area.position)
-	print($Volvox.position)
-	var enemyOrientation: Vector2=area.position-$Volvox.position
-	print(enemyOrientation)
-	var enemyMagnitude=enemyOrientation.length()
-	print(enemyMagnitude)
-	var orientationAngle  =toPolarAngle(enemyOrientation)
-	print(orientationAngle*(360/(PI*2)))
+func refreshVector():
+	inputVector=[0,0,0,0,0,0,0,0]
+	for e in Enemies:
+		var enemyOrientation: Vector2 = e.position-$Volvox.position
+		var enemyMagnitude = enemyOrientation.length()
+		var orientationAngle = toPolarAngle(enemyOrientation)
+		
+		var index = int((orientationAngle/(2*PI))*8)
+		
+		if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
+				inputVector[int(index)]=enemyMagnitude
 	
-	var index=int((orientationAngle/(2*PI))*8)
-	print(index)
-	if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
-			inputVector[int(index)]=enemyMagnitude
-			
 	print(inputVector)
-	pass # Replace with function body.
+
+
 
 
 func _on_mob_spawn_timeout_timeout():
@@ -59,35 +57,38 @@ func _on_mob_spawn_timeout_timeout():
 	mob.linear_velocity = -velocity.rotated(direction)
 	
 	add_child(mob)
+	Enemies.append(mob)
 	
-	for i in self.get_children():
-		print(i)
 	
 
 
 
 func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 	print(body)
+	for i in range(len(Enemies)):
+		var e=Enemies[i]
+		if(e==body):
+			Enemies.remove_at(i)
+			break
 	body.queue_free()
 
-	for i in self.get_children():
-		print(i)
 
 
-func _on_volvox_body_entered(body):
-	print(body)
-	print(body.position)
-	print($Volvox.position)
-	var enemyOrientation: Vector2=body.position-$Volvox.position
-	print(enemyOrientation)
-	var enemyMagnitude=enemyOrientation.length()
-	print(enemyMagnitude)
-	var orientationAngle  =toPolarAngle(enemyOrientation)
-	print(orientationAngle*(360/(PI*2)))
-	
-	var index=int((orientationAngle/(2*PI))*8)
-	print(index)
-	if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
-			inputVector[int(index)]=enemyMagnitude
-			
-	print(inputVector)
+
+#func _on_volvox_body_entered(body):
+	#print(body)
+	#print(body.position)
+	#print($Volvox.position)
+	#var enemyOrientation: Vector2=body.position-$Volvox.position
+	#print(enemyOrientation)
+	#var enemyMagnitude=enemyOrientation.length()
+	#print(enemyMagnitude)
+	#var orientationAngle  =toPolarAngle(enemyOrientation)
+	#print(orientationAngle*(360/(PI*2)))
+	#
+	#var index=int((orientationAngle/(2*PI))*8)
+	##print(index)
+	#if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
+			#inputVector[int(index)]=enemyMagnitude
+			#
+	##print(inputVector)
