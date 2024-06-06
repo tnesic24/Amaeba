@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d04r5mm6k0ae2"]
+
+[ext_resource type="PackedScene" uid="uid://ot2jepuoq7ja" path="res://scenes/main.tscn" id="1_t5vms"]
+
+[node name="population" type="Node2D"]
+
+[node name="Main" parent="." instance=ExtResource("1_t5vms")]
+position = Vector2(80, 67)
+scale = Vector2(0.1, 0.1)
+
+[node name="Main2" parent="." instance=ExtResource("1_t5vms")]
+position = Vector2(359, 66)
+scale = Vector2(0.1, 0.1)

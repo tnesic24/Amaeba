@@ -11,15 +11,22 @@ func _ready():
 	$MobSpawnTimeout.start()
 
 @export var mob_scene: PackedScene
+@export var mob_scale : float = 0.1
 
+func move(direction: Vector2):
+	pass
+	#for e in Enemies:
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	refreshVector()
+	
 
 var Enemies=[]
 
-var inputVector=[0,0,0,0,0,0,0,0]
+var inputVector=[0,0,0,0,0,0,0,0,0,0,0,0]
+#@export reflexMatrix=[]
 
 var speed=0.1
 
@@ -34,7 +41,7 @@ func refreshVector():
 		
 		if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
 				inputVector[int(index)]=enemyMagnitude
-	
+	#inputVector[8]=
 	print(inputVector)
 
 
@@ -52,8 +59,7 @@ func _on_mob_spawn_timeout_timeout():
 	
 	direction += randf_range(-PI/4,PI/4)
 	mob.rotation = direction
-	
-	var velocity =  Vector2(randf_range(150.0,250.0),0.0)
+	var velocity =  Vector2(randf_range(40.0,100.0),0.0)
 	mob.linear_velocity = -velocity.rotated(direction)
 	
 	add_child(mob)
