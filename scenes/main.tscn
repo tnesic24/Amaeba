@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://ot2jepuoq7ja"]
+[gd_scene load_steps=9 format=3 uid="uid://ot2jepuoq7ja"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_jtqcu"]
-[ext_resource type="PackedScene" uid="uid://bdj3uylvvchyc" path="res://scenes/Volvox.tscn" id="1_xhbqu"]
-[ext_resource type="PackedScene" uid="uid://dvp4ohivh0pe1" path="res://scenes/enemy.tscn" id="3_5fiif"]
+[ext_resource type="PackedScene" uid="uid://bdj3uylvvchyc" path="res://scenes/Actor.tscn" id="1_xhbqu"]
+[ext_resource type="Texture2D" uid="uid://d6tjlu54muvd" path="res://assets/dirty-grunge-vintage-backgrounds-textures-3e98b5 (2).jpg" id="3_4duj1"]
+[ext_resource type="Script" path="res://scenes/ParallaxBackground.gd" id="4_lv2sc"]
+[ext_resource type="PackedScene" uid="uid://b522udno2h2ng" path="res://scenes/enemy1.tscn" id="4_rbixb"]
+[ext_resource type="Texture2D" uid="uid://byd8ierqtv7yq" path="res://assets/circlemask.png" id="6_kmxkh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6itlw"]
+size = Vector2(703.127, 486.03)
 
 [sub_resource type="Curve2D" id="Curve2D_kmdib"]
 _data = {
@@ -10,12 +16,18 @@ _data = {
 }
 point_count = 5
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6itlw"]
-size = Vector2(688, 452.632)
-
-[node name="Main" type="Area2D"]
+[node name="Main" type="Area2D" node_paths=PackedStringArray("paralaxBackground")]
+collision_layer = 2
 script = ExtResource("1_jtqcu")
-mob_scene = ExtResource("3_5fiif")
+mob_scene = ExtResource("4_rbixb")
+paralaxBackground = NodePath("ParallaxBackground")
+speed = 2
+
+[node name="PlayScreen" type="CollisionShape2D" parent="."]
+position = Vector2(352.418, 356)
+scale = Vector2(1.00243, 1.46493)
+shape = SubResource("RectangleShape2D_6itlw")
+debug_color = Color(0.447087, 0.451414, 1, 0.42)
 
 [node name="Volvox" parent="." instance=ExtResource("1_xhbqu")]
 position = Vector2(338, 404)
@@ -29,14 +41,38 @@ rotation = 1.5708
 
 [node name="MobSpawnTimeout" type="Timer" parent="."]
 
-[node name="PlayScreen" type="CollisionShape2D" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("4_lv2sc")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+show_behind_parent = true
+motion_mirroring = Vector2(800, 500)
+
+[node name="Dirty-grunge-vintage-backgrounds-textures-3e98b5(2)" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+z_index = -40
+position = Vector2(312, 264)
+scale = Vector2(0.976563, 1.15263)
+texture = ExtResource("3_4duj1")
+region_rect = Rect2(150, 30, 800, 450)
+
+[node name="SpawnBorder" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 702.0
+offset_bottom = 702.0
+
+[node name="PlayTimer" type="Timer" parent="."]
+
+[node name="Circlemask" type="Sprite2D" parent="."]
 position = Vector2(352, 352)
-scale = Vector2(1, 1.52)
-shape = SubResource("RectangleShape2D_6itlw")
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("6_kmxkh")
 
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
-[connection signal="body_exited" from="." to="." method="_on_body_exited"]
-[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]
 [connection signal="area_shape_entered" from="Volvox" to="." method="_on_volvox_area_shape_entered"]
 [connection signal="body_entered" from="Volvox" to="." method="_on_volvox_body_entered"]
 [connection signal="timeout" from="MobSpawnTimeout" to="." method="_on_mob_spawn_timeout_timeout"]
+[connection signal="timeout" from="PlayTimer" to="." method="_on_play_timer_timeout"]

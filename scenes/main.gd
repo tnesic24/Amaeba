@@ -5,30 +5,52 @@ func toPolarAngle(cartesian):
 	if(angle<0):
 		angle+=2*PI
 	return angle
+var movementSpeedThrough=4
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$MobSpawnTimeout.start()
+	playerPosition=$Volvox.position
+	$PlayTimer.start()
 
 @export var mob_scene: PackedScene
-@export var mob_scale : float = 0.1
+@export var mob_scale : float = .1
+@export var paralaxBackground: ParallaxBackground
+@export var speed=1
 
-func move(direction: Vector2):
-	pass
-	#for e in Enemies:
-		
+var playerPosition:Vector2;
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func move(amount: Vector2):
+	for e in Enemies:
+		e.MoveMe(-amount)
+	paralaxBackground.offsetX=-amount.x
+	paralaxBackground.offsetY=-amount.y
+	#$Volvox.position=playerPosition+amount*movementSpeedThrough
+	
+
+
 func _process(delta):
 	refreshVector()
+	if(Input.is_key_pressed(KEY_W)):
+		move(Vector2.UP*speed)
+		
+	
+		
 	
 
 var Enemies=[]
-
-var inputVector=[0,0,0,0,0,0,0,0,0,0,0,0]
+var inputVectorN:VectorN = VectorN.from_packed_array([0,0,0,0,0,0,0,0])
+var inputVector=[0,0,0,0,0,0,0,0]
 #@export reflexMatrix=[]
 
-var speed=0.1
+var reflexMatrix=[randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+	randf(),randf(),randf(),randf(),
+]
 
 func refreshVector():
 	inputVector=[0,0,0,0,0,0,0,0]
@@ -41,8 +63,11 @@ func refreshVector():
 		
 		if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
 				inputVector[int(index)]=enemyMagnitude
-	#inputVector[8]=
-	print(inputVector)
+	var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,4,8)
+	inputVectorN=VectorN.from_packed_array(inputVector)
+	var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
+	var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed
+	move(moveVector)
 
 
 
@@ -53,16 +78,22 @@ func _on_mob_spawn_timeout_timeout():
 	var mob_spawn_location=$MobPath/PathFollow2D
 	mob_spawn_location.progress_ratio = randf()
 	
-	var direction = mob_spawn_location.rotation + PI/2
-	
 	mob.position = mob_spawn_location.position
+	mob.scale=Vector2(mob_scale,mob_scale)
 	
-	direction += randf_range(-PI/4,PI/4)
-	mob.rotation = direction
-	var velocity =  Vector2(randf_range(40.0,100.0),0.0)
-	mob.linear_velocity = -velocity.rotated(direction)
+	#var direction = mob_spawn_location.rotation + PI/2
 	
-	add_child(mob)
+	var aimat=($Volvox.position-mob.position).normalized()#.rotated(randf_range(-PI/16,PI/16))
+	
+	#direction += randf_range(-PI/4,PI/4)
+	#mob.rotation = direction
+	mob.rotation=aimat.angle()
+	print(aimat.angle())
+	var velocity =  randf_range(1,2)
+	mob.Direction = aimat#($Volvox.position-mob_spawn_location.position).normalized().rotated(randf_range(-PI/16,PI/16))
+	mob.Speed = velocity
+	
+	$SpawnBorder.add_child(mob)
 	Enemies.append(mob)
 	
 	
@@ -98,3 +129,26 @@ func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 			#inputVector[int(index)]=enemyMagnitude
 			#
 	##print(inputVector)
+
+
+func _on_area_exited(area):
+	print(area)
+	for i in range(len(Enemies)):
+		var e=Enemies[i]
+		if(e==area):
+			Enemies.remove_at(i)
+			break
+	area.queue_free()
+
+
+func _on_volvox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+	print("kraj")
+	score+=1-$PlayTimer.time_left
+	$PlayTimer.stop()
+	print(score)
+
+@export var score=0
+
+func _on_play_timer_timeout():
+	score+=1
+	print(score)

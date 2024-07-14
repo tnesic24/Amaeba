@@ -1,19 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvp4ohivh0pe1"]
+[gd_scene load_steps=4 format=3 uid="uid://dvp4ohivh0pe1"]
 
 [ext_resource type="Texture2D" uid="uid://oga1xybkwxhi" path="res://assets/volvox1.png" id="1_if51i"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_yk7q3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uivwy"]
 radius = 200.0
 
-[node name="Enemy" type="RigidBody2D"]
-scale = Vector2(0.05, 0.05)
-gravity_scale = 0.0
+[node name="Enemy" type="Area2D"]
+script = ExtResource("1_yk7q3")
 
 [node name="Volvox1" type="Sprite2D" parent="."]
-position = Vector2(-4.17233e-07, -1.08697e-06)
-scale = Vector2(0.1, 0.1)
+position = Vector2(-4.17233e-07, 0.500018)
+scale = Vector2(1, 1.03655)
 texture = ExtResource("1_if51i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.1, 0.1)
 shape = SubResource("CircleShape2D_uivwy")
