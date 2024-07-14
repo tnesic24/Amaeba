@@ -42,14 +42,14 @@ var inputVectorN:VectorN = VectorN.from_packed_array([0,0,0,0,0,0,0,0])
 var inputVector=[0,0,0,0,0,0,0,0]
 #@export reflexMatrix=[]
 
-var reflexMatrix=[randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
-	randf(),randf(),randf(),randf(),
+@export var reflexMatrix=[	randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
+							randf()-.5,randf()-.5,
 ]
 
 func refreshVector():
@@ -63,7 +63,7 @@ func refreshVector():
 		
 		if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
 				inputVector[int(index)]=enemyMagnitude
-	var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,4,8)
+	var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,2,8)
 	inputVectorN=VectorN.from_packed_array(inputVector)
 	var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
 	var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed

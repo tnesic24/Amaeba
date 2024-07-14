@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://wgnhgnxsl0lp"]
+
+[ext_resource type="PackedScene" uid="uid://ot2jepuoq7ja" path="res://scenes/main.tscn" id="1_1jj1b"]
+[ext_resource type="Script" path="res://scenes/populationSprites.gd" id="1_po5ly"]
+
+[node name="PopulationSprites" type="Node2D"]
+script = ExtResource("1_po5ly")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 336.0
+offset_bottom = 328.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(336, 328)
+size_2d_override = Vector2i(700, 700)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Main" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_1jj1b")]
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
+offset_left = 360.0
+offset_right = 704.0
+offset_bottom = 328.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer2"]
+handle_input_locally = false
+size = Vector2i(344, 328)
+size_2d_override = Vector2i(700, 700)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Main" parent="SubViewportContainer2/SubViewport" instance=ExtResource("1_1jj1b")]
