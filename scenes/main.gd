@@ -15,8 +15,8 @@ func _ready():
 @export var mob_scene: PackedScene
 @export var mob_scale : float = .1
 @export var paralaxBackground: ParallaxBackground
-@export var speed=1
-
+@export var speed=100
+@export var mob_speed=3
 var playerPosition:Vector2;
 
 func move(amount: Vector2):
@@ -30,8 +30,14 @@ func move(amount: Vector2):
 
 func _process(delta):
 	refreshVector()
-	if(Input.is_key_pressed(KEY_W)):
-		move(Vector2.UP*speed)
+	
+	#refreshing done, next is reacting, should be sepparate func
+	var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,2,8)
+	inputVectorN=VectorN.from_packed_array(inputVector)
+	var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
+	var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed
+	move(moveVector*delta)
+	print(delta)
 		
 	
 		
@@ -63,11 +69,6 @@ func refreshVector():
 		
 		if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
 				inputVector[int(index)]=enemyMagnitude
-	var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,2,8)
-	inputVectorN=VectorN.from_packed_array(inputVector)
-	var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
-	var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed
-	move(moveVector)
 
 
 
@@ -89,7 +90,7 @@ func _on_mob_spawn_timeout_timeout():
 	#mob.rotation = direction
 	mob.rotation=aimat.angle()
 	print(aimat.angle())
-	var velocity =  randf_range(1,2)
+	var velocity =  randf_range(1,2)*mob_speed
 	mob.Direction = aimat#($Volvox.position-mob_spawn_location.position).normalized().rotated(randf_range(-PI/16,PI/16))
 	mob.Speed = velocity
 	
@@ -152,3 +153,4 @@ func _on_volvox_area_shape_entered(area_rid, area, area_shape_index, local_shape
 func _on_play_timer_timeout():
 	score+=1
 	print(score)
+	$Label.text=str(score)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ot2jepuoq7ja"]
+[gd_scene load_steps=10 format=3 uid="uid://ot2jepuoq7ja"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_jtqcu"]
 [ext_resource type="PackedScene" uid="uid://bdj3uylvvchyc" path="res://scenes/Actor.tscn" id="1_xhbqu"]
@@ -16,12 +16,17 @@ _data = {
 }
 point_count = 5
 
+[sub_resource type="LabelSettings" id="LabelSettings_v6fjr"]
+font_size = 35
+
 [node name="Main" type="Area2D" node_paths=PackedStringArray("paralaxBackground")]
 collision_layer = 2
 script = ExtResource("1_jtqcu")
 mob_scene = ExtResource("4_rbixb")
+mob_scale = 0.15
 paralaxBackground = NodePath("ParallaxBackground")
-speed = 2
+speed = 150
+mob_speed = 5
 
 [node name="PlayScreen" type="CollisionShape2D" parent="."]
 position = Vector2(352.418, 356)
@@ -31,7 +36,7 @@ debug_color = Color(0.447087, 0.451414, 1, 0.42)
 
 [node name="Volvox" parent="." instance=ExtResource("1_xhbqu")]
 position = Vector2(338, 404)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.25, 0.25)
 
 [node name="MobPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_kmdib")
@@ -70,6 +75,16 @@ offset_bottom = 702.0
 position = Vector2(352, 352)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("6_kmxkh")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 584.0
+offset_top = 624.0
+offset_right = 696.0
+offset_bottom = 696.0
+text = "1"
+label_settings = SubResource("LabelSettings_v6fjr")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="area_shape_entered" from="Volvox" to="." method="_on_volvox_area_shape_entered"]
