@@ -19,6 +19,9 @@ func _ready():
 @export var mob_speed=3
 var playerPosition:Vector2;
 
+signal gameover(score)
+@export var ended=false
+
 func move(amount: Vector2):
 	for e in Enemies:
 		e.MoveMe(-amount)
@@ -29,17 +32,16 @@ func move(amount: Vector2):
 
 
 func _process(delta):
-	refreshVector()
-	
-	#refreshing done, next is reacting, should be sepparate func
-	var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,2,8)
-	inputVectorN=VectorN.from_packed_array(inputVector)
-	var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
-	var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed
-	move(moveVector*delta)
-	print(delta)
+	if(!ended):
+		refreshVector()
 		
-	
+		#refreshing done, next is reacting, should be sepparate func
+		var reflexMatrixN:DenseMatrix=DenseMatrix.from_packed_array(reflexMatrix,2,8)
+		inputVectorN=VectorN.from_packed_array(inputVector)
+		var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
+		var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed
+		move(moveVector*delta)
+		print(delta)
 		
 	
 
@@ -113,24 +115,6 @@ func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 
 
 
-#func _on_volvox_body_entered(body):
-	#print(body)
-	#print(body.position)
-	#print($Volvox.position)
-	#var enemyOrientation: Vector2=body.position-$Volvox.position
-	#print(enemyOrientation)
-	#var enemyMagnitude=enemyOrientation.length()
-	#print(enemyMagnitude)
-	#var orientationAngle  =toPolarAngle(enemyOrientation)
-	#print(orientationAngle*(360/(PI*2)))
-	#
-	#var index=int((orientationAngle/(2*PI))*8)
-	##print(index)
-	#if(inputVector[index]==0 or inputVector[index]>enemyMagnitude):
-			#inputVector[int(index)]=enemyMagnitude
-			#
-	##print(inputVector)
-
 
 func _on_area_exited(area):
 	print(area)
@@ -143,10 +127,21 @@ func _on_area_exited(area):
 
 
 func _on_volvox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
-	print("kraj")
+	print("gameover")
 	score+=1-$PlayTimer.time_left
 	$PlayTimer.stop()
 	print(score)
+	gameover.emit(score)
+	gameOver()
+
+func gameOver():
+	$MobSpawnTimeout.stop()
+	ended=true	
+	move(Vector2(0,0))
+	for e in Enemies:
+		e.GameOver()
+	$EndGameOverlay.visible=true
+	
 
 @export var score=0
 

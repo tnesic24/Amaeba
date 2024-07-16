@@ -14,3 +14,8 @@ func _process(delta):
 
 func MoveMe(amount :Vector2):
 	position+=amount
+	
+func GameOver():
+	Speed=0
+	if($Area2D/AnimatedSprite2D):
+		$Area2D/AnimatedSprite2D.stop()

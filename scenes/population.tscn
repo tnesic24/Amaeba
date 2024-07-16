@@ -7,7 +7,13 @@
 [node name="Main" parent="." instance=ExtResource("1_t5vms")]
 position = Vector2(80, 67)
 scale = Vector2(0.1, 0.1)
+mob_scale = 0.1
+speed = 100
+mob_speed = 3
 
 [node name="Main2" parent="." instance=ExtResource("1_t5vms")]
 position = Vector2(359, 66)
 scale = Vector2(0.1, 0.1)
+mob_scale = 0.1
+speed = 100
+mob_speed = 3
