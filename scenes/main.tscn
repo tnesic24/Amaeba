@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://ot2jepuoq7ja"]
+[gd_scene load_steps=12 format=3 uid="uid://ot2jepuoq7ja"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_jtqcu"]
 [ext_resource type="PackedScene" uid="uid://bdj3uylvvchyc" path="res://scenes/Actor.tscn" id="1_xhbqu"]
-[ext_resource type="Texture2D" uid="uid://d6tjlu54muvd" path="res://assets/dirty-grunge-vintage-backgrounds-textures-3e98b5 (2).jpg" id="3_4duj1"]
 [ext_resource type="Script" path="res://scenes/ParallaxBackground.gd" id="4_lv2sc"]
 [ext_resource type="PackedScene" uid="uid://b522udno2h2ng" path="res://scenes/enemy1.tscn" id="4_rbixb"]
+[ext_resource type="Texture2D" uid="uid://d6tjlu54muvd" path="res://assets/dirty-grunge-vintage-backgrounds-textures-3e98b5 (2).jpg" id="5_8ak44"]
 [ext_resource type="Texture2D" uid="uid://byd8ierqtv7yq" path="res://assets/circlemask.png" id="6_kmxkh"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rqn6i"]
@@ -22,6 +22,9 @@ point_count = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_v6fjr"]
 font_size = 35
+
+[sub_resource type="LabelSettings" id="LabelSettings_rnxyw"]
+font_size = 36
 
 [node name="Main" type="Area2D" node_paths=PackedStringArray("paralaxBackground")]
 collision_layer = 2
@@ -59,13 +62,16 @@ script = ExtResource("4_lv2sc")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 show_behind_parent = true
-motion_mirroring = Vector2(800, 500)
+motion_mirroring = Vector2(2022, 1614)
 
 [node name="Dirty-grunge-vintage-backgrounds-textures-3e98b5(2)" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 z_index = -40
-position = Vector2(312, 264)
-scale = Vector2(0.976563, 1.15263)
-texture = ExtResource("3_4duj1")
+texture_repeat = 3
+scale = Vector2(2, 2)
+texture = ExtResource("5_8ak44")
+centered = false
+flip_h = true
+flip_v = true
 region_rect = Rect2(150, 30, 800, 450)
 
 [node name="SpawnBorder" type="Control" parent="."]
@@ -84,13 +90,23 @@ position = Vector2(352, 352)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("6_kmxkh")
 
-[node name="Label" type="Label" parent="."]
+[node name="ScoreLabel" type="Label" parent="."]
 offset_left = 584.0
 offset_top = 624.0
 offset_right = 696.0
 offset_bottom = 696.0
 text = "1"
 label_settings = SubResource("LabelSettings_v6fjr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 96.0
+offset_bottom = 96.0
+text = "III"
+label_settings = SubResource("LabelSettings_rnxyw")
 horizontal_alignment = 1
 vertical_alignment = 1
 

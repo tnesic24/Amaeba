@@ -70,11 +70,10 @@ func _ready():
 		ms.reflexMatrix=m
 		
 		ms.gameover.connect(ind.getScore)
-		
+		ms.NameLabel='{'+str(i)+'}'
 		subViews[i].add_child(ms)
 	
-	var timescale=2
-	var initial_fps=24
+	var timescale=1
 	Engine.set_max_fps(timescale*initial_fps)
 	Engine.set_time_scale(timescale)
 	
@@ -82,3 +81,13 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+@export var initial_fps=24
+
+func _on_h_slider_drag_ended(value_changed):
+	if(!value_changed):
+		return
+	var value=$HSlider.value
+	var timescale=value
+	Engine.set_max_fps(timescale*initial_fps)
+	Engine.set_time_scale(timescale)

@@ -11,12 +11,14 @@ func _ready():
 	$MobSpawnTimeout.start()
 	playerPosition=$Volvox.position
 	$PlayTimer.start()
+	$NameLabel.text=NameLabel
 
 @export var mob_scene: PackedScene
 @export var mob_scale : float = .1
 @export var paralaxBackground: ParallaxBackground
 @export var speed=100
 @export var mob_speed=3
+@export var NameLabel=''
 var playerPosition:Vector2;
 
 signal gameover(score)
@@ -41,7 +43,6 @@ func _process(delta):
 		var reflexVector=reflexMatrixN.multiply_vector(inputVectorN).to_packed_array()
 		var moveVector:Vector2 = Vector2(reflexVector[0],reflexVector[1]).normalized()*speed
 		move(moveVector*delta)
-		print(delta)
 		
 	
 
@@ -117,7 +118,6 @@ func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 
 
 func _on_area_exited(area):
-	print(area)
 	for i in range(len(Enemies)):
 		var e=Enemies[i]
 		if(e==area):
@@ -148,4 +148,4 @@ func gameOver():
 func _on_play_timer_timeout():
 	score+=1
 	print(score)
-	$Label.text=str(score)
+	$ScoreLabel.text=str(score)
