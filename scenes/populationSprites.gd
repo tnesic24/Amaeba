@@ -16,17 +16,6 @@ func createRandom():
 	]
 	return reflexMatrix
 
-func createForDebug(i):
-	var reflexMatrix=[		i-.5,i-.5,
-							i-.5,i-.5,
-							i-.5,i-.5,
-							i-.5,i-.5,
-							i-.5,i-.5,
-							i-.5,i-.5,
-							i-.5,i-.5,
-							i-.5,i-.5,
-	]
-	return reflexMatrix
 
 class Individual:
 	func _init(genes,representation):
@@ -55,7 +44,7 @@ func Ind_got_score(ind):
 
 var subViews=[]
 func _ready():
-	seed(42)
+	seed(43)
 	subViews=[$GridContainer/SubViewportContainer/SubViewport,$GridContainer/SubViewportContainer2/SubViewport
 	,$GridContainer/SubViewportContainer3/SubViewport,$GridContainer/SubViewportContainer4/SubViewport]
 	#Individuals=[$SubViewportContainer/SubViewport/Main,$SubViewportContainer2/SubViewport/Main]
