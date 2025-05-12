@@ -94,7 +94,6 @@ func _on_mob_spawn_timeout_timeout():
 	#direction += randf_range(-PI/4,PI/4)
 	#mob.rotation = direction
 	mob.rotation=aimat.angle()
-	print(aimat.angle())
 	var velocity =  randf_range(1,2)*mob_speed
 	mob.Direction = aimat#($Volvox.position-mob_spawn_location.position).normalized().rotated(randf_range(-PI/16,PI/16))
 	mob.Speed = velocity
@@ -107,7 +106,7 @@ func _on_mob_spawn_timeout_timeout():
 
 
 func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
-	print(body)
+	
 	for i in range(len(Enemies)):
 		var e=Enemies[i]
 		if(e==body):
@@ -129,10 +128,8 @@ func _on_area_exited(area):
 
 
 func _on_volvox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
-	print("gameover")
 	score+=1-$PlayTimer.time_left
 	$PlayTimer.stop()
-	print(score)
 	gameover.emit(score)
 	gameOver()
 
@@ -149,5 +146,4 @@ func gameOver():
 
 func _on_play_timer_timeout():
 	score+=1
-	print(score)
 	$ScoreLabel.text=str(score)

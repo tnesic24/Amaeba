@@ -45,7 +45,6 @@ func shallowCopy(ind):
 func Ind_got_score(ind):
 	var count=0
 	for i in Individuals:
-		print(i.score)
 		if(i.score<0):
 			count+=1
 	if(count==0):
@@ -85,20 +84,27 @@ func cross(population):
 		var child1=[]
 		var child2=[]
 		for i in range(16):# broj elemenata matrice (gena)
-			var odabir=randf()
+			var odabir=randf() 	#bacamo novcic i biramo gen prvog 
+								# ili drugog roditelja
 			if(odabir<=0.5):
 				child1.append(parent1.genes[i])
 				child2.append(parent2.genes[i])
 			else:
 				child2.append(parent1.genes[i])
 				child1.append(parent2.genes[i])
-		children.append(Individual.new(child1,parent1.name+"+"+parent2.name))
-		children.append(Individual.new(child2,parent2.name+"+"+parent1.name))
+		children.append(Individual.new(child1,str(numberOfIndividuals)))
+		#children.append(Individual.new(child2,str(numberOfIndividuals+1)))
+		numberOfIndividuals+=1
 	return children
+
+var numberOfIndividuals=0
 func mutate(population):
 	# ovde kucate kod koji obavlja proces mutacije.
 	# izaberete jednu, ili mali broj jedinki,
 	# i promenite joj nasumicno na neki nacin reflexMatrix
+	var mutated=population[randi_range(0,len(population)-1)]
+	mutated.genes[randi_range(0,16-1)]=randf()-0.5
+	mutated.name=mutated.name+"M"
 	return population;
 
 func newGeneration():
@@ -106,7 +112,6 @@ func newGeneration():
 	
 	Individuals.sort_custom(func(ind1,ind2) : return ind1.score>ind2.score)
 	for i in Individuals:
-		print(i)
 		population.append(shallowCopy(i))
 	population=mutate(cross(select(population)))
 	reset(population);
@@ -141,12 +146,12 @@ func _ready():
 	subViews=[]
 	for g in gridchildren:
 		subViews.append(g.get_child(0))
-	print(subViews)
 	var population=[]
 	var i=0
 	for m in subViews:
 		population.append(Individual.new(createRandom(),"{"+str(i)+"}"))
 		i+=1
+		numberOfIndividuals+=1
 	reset(population);
 	
 
