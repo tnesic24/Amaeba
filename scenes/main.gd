@@ -12,6 +12,7 @@ func _ready():
 	playerPosition=$Volvox.position
 	$PlayTimer.start()
 	$NameLabel.text=NameLabel
+	$BestScoreLabel.text=str(BestScore)
 
 @export var mob_scene: PackedScene
 @export var mob_scale : float = .1
@@ -19,6 +20,7 @@ func _ready():
 @export var speed=100
 @export var mob_speed=3
 @export var NameLabel=''
+@export var BestScore=0
 var playerPosition:Vector2;
 
 signal gameover(score)

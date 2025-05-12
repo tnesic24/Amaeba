@@ -110,6 +110,16 @@ label_settings = SubResource("LabelSettings_rnxyw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="BestScoreLabel" type="Label" parent="."]
+offset_left = 608.0
+offset_top = 24.0
+offset_right = 688.0
+offset_bottom = 104.0
+text = "54"
+label_settings = SubResource("LabelSettings_rnxyw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="EndGameOverlay" type="ColorRect" parent="."]
 visible = false
 top_level = true
